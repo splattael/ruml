@@ -1,0 +1,136 @@
+#!/usr/bin/env ruby
+
+$debug = ENV['DEBUG']
+
+require 'rubygems'
+require 'bundler/setup'
+
+require 'mail'
+
+class Miniml
+  attr_reader :name
+
+  def initialize(dir)
+    @dir = dir
+    raise "Unknown ml #{name} (#{@dir})" unless File.directory?(@dir)
+  end
+
+  def id
+    @id ||= to.gsub('@', '.')
+  end
+
+  def name
+    @name ||= readlines("name").first
+  end
+
+  def members
+    @members ||= readlines("members").reject { |member| member =~ /^#|^$/ }
+  end
+
+  def to
+    @to ||= readlines("to").first
+  end
+
+  def bounce_to
+    @bounce_to ||= readlines("bounce_to").first || to
+  end
+
+  def message(body)
+    Message.new(self, body)
+  end
+
+  def readlines(name)
+    File.readlines(file_for(name)).map(&:strip)
+  rescue Errno::ENOENT
+    []
+  end
+
+  def file_for(*path)
+    File.join([@dir] + path)
+  end
+
+  class Message
+    def initialize(ml, message)
+      @ml = ml
+      @message = Mail.new(message)
+    end
+
+    def sendable?
+      !been_there? && valid_member?
+    end
+
+    def valid_member?
+      expected = @message.from.size
+      actual   = (@message.from(&:downvase) & @ml.members.map(&:downcase)).size
+      expected == actual
+    end
+
+    def been_there?
+      @message['X-BeenThere'].to_s == @ml.to
+    end
+
+    def add_headers!(mail)
+      mail['X-BeenThere'] = @ml.to
+      mail['List-Id']     = "<#{@ml.id}>"
+      mail['List-Post']   = "<mailto:#{@ml.to}>"
+      mail['Precedence']  = 'list'
+      mail['Sender']      = @ml.bounce_to
+      mail['Errors-To']   = @ml.bounce_to
+      mail['User-Agent']  = @message['User-Agent'].value if @message['User-Agent']
+    end
+
+    def from
+      @message.from.first
+    end
+
+    def to
+      @ml.to
+    end
+
+    def subject
+      if @ml.name && !@message.subject.include?(@ml.name)
+        "#{@ml.name} #{@message.subject}"
+      else
+        @message.subject
+      end
+    end
+
+    def send!
+      @ml.members.each do |recipient|
+        send_to(recipient)
+      end
+    end
+
+    def send_to(recipient)
+      mail = Mail.new
+      mail.subject  subject
+      mail.from     from
+      mail.to       to
+      mail.bcc      recipient
+
+      if @message.multipart?
+        @message.parts.each do |part|
+          mail.add_part part
+        end
+      else
+        mail.body @message.body.raw_source
+      end
+      add_headers! mail
+
+      if $debug
+        puts mail.to_s
+      else
+        mail.delivery_method :sendmail
+        mail.deliver
+      end
+    end
+  end
+end
+
+ml = Miniml.new(ARGV[0])
+
+message = ml.message(STDIN.read)
+
+if message.sendable?
+  message.send!
+end
