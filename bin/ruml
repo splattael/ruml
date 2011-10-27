@@ -40,13 +40,10 @@ class Ruml
   end
 
   def readlines(name)
-    File.readlines(file_for(name)).map(&:strip)
+    path = File.join([@dir] + name)
+    File.readlines(path).map(&:strip)
   rescue Errno::ENOENT
     []
-  end
-
-  def file_for(*path)
-    File.join([@dir] + path)
   end
 
   class Message
