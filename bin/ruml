@@ -7,7 +7,7 @@ require 'bundler/setup'
 
 require 'mail'
 
-class Miniml
+class Ruml
   attr_reader :name
 
   def initialize(dir)
@@ -127,7 +127,7 @@ class Miniml
   end
 end
 
-ml = Miniml.new(ARGV[0])
+ml = Ruml.new(ARGV[0])
 
 message = ml.message(STDIN.read)
 
