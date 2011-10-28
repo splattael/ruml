@@ -2,7 +2,10 @@
 
 Ruby mailing list software
 
-## File structure
+
+## Configration (ruml)
+
+### File based
 
 <pre>
 testml/
@@ -17,7 +20,8 @@ testml/
 * member    - List of member's addresses
 * bounce_to - Bounce mails go to this email (optional)
 
-## MTA configuration
+
+## Configuration (Postfix)
 
 ### Postfix
 
@@ -41,6 +45,7 @@ virtual_alias_maps = regexp:/etc/postfix/ml-maps
 alias_maps = hash:/etc/postfix/ml-aliases
 alias_database = hash:/etc/postfix/ml-aliases
 </pre>
+
 
 ## TODO
 
