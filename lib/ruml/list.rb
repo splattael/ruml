@@ -1,6 +1,6 @@
 module Ruml
   class List
-    attr_reader :name
+    attr_reader :dir
 
     def initialize(dir)
       raise ArgumentError, "Couldn't find mailing list in #{dir.inspect}" unless File.directory?(dir)
@@ -16,7 +16,7 @@ module Ruml
     end
 
     def members
-      @members ||= readlines("members").reject { |member| member =~ /^#|^$/ }
+      @members ||= readlines("members").map(&:downcase).uniq.reject { |member| member =~ /^#|^$/ }
     end
 
     def to

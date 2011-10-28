@@ -47,6 +47,10 @@ module Ruml
       @ml.to
     end
 
+    def recipients
+      @ml.members
+    end
+
     def subject
       if @ml.name && !@message.subject.include?(@ml.name)
         "#{@ml.name} #{@message.subject}"
@@ -56,30 +60,16 @@ module Ruml
     end
 
     def send!
-      @ml.members.each do |recipient|
-        send_to(recipient)
-      end
-    end
-
-    def send_to(recipient)
       mail = Mail.new
       mail.subject  subject
       mail.from     from
       mail.to       to
-      mail.bcc      recipient
+      mail.bcc      recipients
 
       add_headers! mail
       add_body! mail
-      deliver! mail
-    end
 
-    def deliver! mail
-      if $debug
-        puts mail.to_s
-      else
-        mail.delivery_method :sendmail
-        mail.deliver
-      end
+      mail.deliver
     end
   end
 end

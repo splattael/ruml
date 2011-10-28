@@ -1,8 +1,26 @@
 #!/usr/bin/env ruby
 
-$debug = ENV['DEBUG']
-
 require 'ruml'
+
+# TODO test!
+if %w[true 1 on].include?(ENV['DEBUG'])
+  Mail.defaults do
+    spitter = Class.new do
+      def initialize(settings)
+      end
+
+      def deliver!(mail)
+        puts mail
+        puts "=" * 80
+      end
+    end
+    delivery_method spitter
+  end
+else
+  Mail.defaults do
+    delivery_method :sendmail
+  end
+end
 
 ml = Ruml.new(ARGV[0])
 ml.broadcast!($stdin.read)
