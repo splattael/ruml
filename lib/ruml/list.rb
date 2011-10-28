@@ -3,8 +3,8 @@ module Ruml
     attr_reader :name
 
     def initialize(dir)
+      raise ArgumentError, "Couldn't find mailing list in #{dir.inspect}" unless File.directory?(dir)
       @dir = dir
-      raise "Unknown ml #{name} (#{@dir})" unless File.directory?(@dir)
     end
 
     def id

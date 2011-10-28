@@ -5,4 +5,4 @@ $debug = ENV['DEBUG']
 require 'ruml'
 
 ml = Ruml.new(ARGV[0])
-ml.broadcast!(STDIN.read)
+ml.broadcast!($stdin.read)
