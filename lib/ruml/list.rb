@@ -3,8 +3,8 @@ module Ruml
     attr_reader :dir
 
     def initialize(dir)
-      raise ArgumentError, "Couldn't find mailing list in #{dir.inspect}" unless File.directory?(dir)
-      @dir = dir
+      @dir = dir.to_s
+      raise ArgumentError, "Couldn't find mailing list in #{@dir.inspect}" unless File.directory?(@dir)
     end
 
     def id

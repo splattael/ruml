@@ -1,19 +1,22 @@
 require 'helper'
 
 describe "Ruml binary" do
-  it "fails with TypeError w/o arguments" do
+  it "fails with ArgumentError using empty list path" do
     output = exec_ruml nil, nil
-    output.must_match "can't convert nil into String (TypeError)"
+    output.must_match "Couldn't find mailing list in \"\""
+    output.must_match "ArgumentError"
   end
 
   it "fails with ArgumentError using invalid list path" do
     output = exec_ruml "invalid path", nil
-    output.must_match "Couldn't find mailing list in \"invalid path\" (ArgumentError)"
+    output.must_match "Couldn't find mailing list in \"invalid path\""
+    output.must_match "ArgumentError"
   end
 
   it "fails with NoMethodError on empty input" do
     output = exec_ruml example_ml_path, nil
-    output.must_match "undefined method `size' for nil:NilClass (NoMethodError)"
+    output.must_match /undefined method `size' (for|on) nil:NilClass/
+    output.must_match "NoMethodError"
   end
 
   describe "with example_ml" do
