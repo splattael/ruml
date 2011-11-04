@@ -15,7 +15,7 @@ describe "Ruml binary" do
 
   it "fails with NoMethodError on empty input" do
     output = exec_ruml example_ml_path, nil
-    output.must_match /undefined method `size' (for|on) nil:NilClass/
+    output.must_match %r{undefined method `size' (for|on) nil:NilClass}
     output.must_match "NoMethodError"
   end
 
