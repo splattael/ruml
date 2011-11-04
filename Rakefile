@@ -28,7 +28,7 @@ end
 namespace :rubies do
   desc "Run tests for following supported platforms #{SUPPORTED_RUBIES.join ", "}"
   task :test do
-    command = "bundle check || bundle install && rake"
+    command = "bundle check || bundle install && bundle exec rake"
     rubies = ENV['RUBIES'] ? ENV['RUBIES'].split(",") : SUPPORTED_RUBIES
     rubies.each { |ruby| with_ruby(ruby, command) }
   end
