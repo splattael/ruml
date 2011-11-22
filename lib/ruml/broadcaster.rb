@@ -11,7 +11,7 @@ module Ruml
 
     def valid_member?
       expected = @message.from.size
-      actual   = (@message.from(&:downvase) & @ml.members.map(&:downcase)).size
+      actual   = (@message.from.map(&:downcase) & @ml.members.map(&:downcase)).size
       expected == actual
     end
 
