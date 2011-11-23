@@ -1,10 +1,13 @@
 module Ruml
   class List
-    attr_reader :path
+    attr_reader :config
 
     def initialize(path)
-      @path = path.to_s
-      raise ArgumentError, "Couldn't find mailing list in #{@path.inspect}" unless File.directory?(@path)
+      @config = Config.new(path)
+    end
+
+    def path
+      config.path
     end
 
     def id
@@ -12,19 +15,19 @@ module Ruml
     end
 
     def name
-      @name ||= readlines("name").first
+      @name ||= ("name").first
     end
 
     def members
-      @members ||= readlines("members").map(&:downcase).uniq.reject { |member| member =~ /^#|^$/ }
+      @members ||= config["members"].map(&:downcase).uniq.reject { |member| member =~ /^#|^$/ }
     end
 
     def to
-      @to ||= readlines("to").first
+      @to ||= config["to"].first
     end
 
     def bounce_to
-      @bounce_to ||= readlines("bounce_to").first || to
+      @bounce_to ||= config["bounce_to"].first || to
     end
 
     def broadcaster(body)
@@ -36,15 +39,6 @@ module Ruml
       if message.sendable?
         message.send!
       end
-    end
-
-  private
-
-    def readlines(name)
-      path = File.join(@path, name)
-      File.readlines(path).map(&:strip)
-    rescue Errno::ENOENT
-      []
     end
   end
 end
