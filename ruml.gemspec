@@ -20,4 +20,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "minitest"
 
   s.add_runtime_dependency "mail",            "~> 2.3.0"
+  s.add_runtime_dependency "moneta",          "~> 0.6.0"
 end

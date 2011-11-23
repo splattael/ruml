@@ -24,14 +24,14 @@ describe "Ruml binary" do
 
     it "refuse email from unknown member" do
       mail = compose_mail(mailing_list, :from => "unknown@member.com")
-      output = exec_ruml mailing_list.dir, mail.to_s
+      output = exec_ruml mailing_list.path, mail.to_s
       output.must_be_empty
       deliveries.must_be_empty
     end
 
     describe "from valid member" do
       let(:mail) { compose_mail(mailing_list) }
-      let(:output) { exec_ruml mailing_list.dir, mail.to_s }
+      let(:output) { exec_ruml mailing_list.path, mail.to_s }
       let(:delivery) { output; deliveries.first }
 
       it "output is empty" do

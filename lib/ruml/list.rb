@@ -1,10 +1,10 @@
 module Ruml
   class List
-    attr_reader :dir
+    attr_reader :path
 
-    def initialize(dir)
-      @dir = dir.to_s
-      raise ArgumentError, "Couldn't find mailing list in #{@dir.inspect}" unless File.directory?(@dir)
+    def initialize(path)
+      @path = path.to_s
+      raise ArgumentError, "Couldn't find mailing list in #{@path.inspect}" unless File.directory?(@path)
     end
 
     def id
@@ -41,7 +41,7 @@ module Ruml
   private
 
     def readlines(name)
-      path = File.join(@dir, name)
+      path = File.join(@path, name)
       File.readlines(path).map(&:strip)
     rescue Errno::ENOENT
       []
