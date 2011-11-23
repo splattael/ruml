@@ -10,6 +10,13 @@ Mail.defaults do
   delivery_method :test
 end
 
+if fixture = ENV['TEST_FIXTURE']
+  TEST_FIXTURE = ENV['TEST_FIXTURE']
+  puts "Using TEST_FIXTURE=#{TEST_FIXTURE}"
+else
+  abort "Please run: TEST_FIXTURE=file rake"
+end
+
 module RumlTestSupport
   def exec_ruml(arg, input)
     # TODO execute "bin/ruml" directly
@@ -31,7 +38,14 @@ module RumlTestSupport
   end
 
   def example_ml_path
-    fixture_path "example_ml"
+    case TEST_FIXTURE
+    when "file"
+      fixture_path "example_ml"
+    when "yaml", "yml"
+      fixture_path "example_ml.yml"
+    else
+      abort "Unknown TEST_FIXTURE #{TEST_FIXTURE.inspect}"
+    end
   end
 end
 

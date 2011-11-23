@@ -1,0 +1,8 @@
+---
+name: "[Test ML]"
+to: test-ml@example.com
+bounce_to: test-ml-bounce@example.com
+members:
+- info@example.com
+- foo@example.com
+- Foo@example.com

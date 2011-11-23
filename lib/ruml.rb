@@ -1,4 +1,7 @@
 require 'mail'
+require 'moneta'
+require 'moneta/adapters/basic_file'
+require 'moneta/adapters/yaml'
 
 module Ruml
   autoload :List,         'ruml/list'

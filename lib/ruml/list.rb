@@ -15,19 +15,19 @@ module Ruml
     end
 
     def name
-      @name ||= ("name").first
+      @name ||= lines("name").first
     end
 
     def members
-      @members ||= config["members"].map(&:downcase).uniq.reject { |member| member =~ /^#|^$/ }
+      @members ||= lines("members").map(&:downcase).uniq.reject { |member| member =~ /^#|^$/ }
     end
 
     def to
-      @to ||= config["to"].first
+      @to ||= lines("to").first
     end
 
     def bounce_to
-      @bounce_to ||= config["bounce_to"].first || to
+      @bounce_to ||= lines("bounce_to").first || to
     end
 
     def broadcaster(body)
@@ -40,5 +40,14 @@ module Ruml
         message.send!
       end
     end
+
+  private
+
+    def lines(name)
+      value = config[name]
+      value = value.split("\n").map(&:strip) if value.respond_to?(:split)
+      value
+    end
+
   end
 end
