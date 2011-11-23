@@ -1,8 +1,6 @@
 rvm:
   - ree
+  - 1.9.2
   - 1.9.3
   - rbx-2.0
   - jruby
-env:
-  - TEST_FIXTURE=file
-  - TEST_FIXTURE=yaml
