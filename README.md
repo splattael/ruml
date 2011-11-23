@@ -49,4 +49,4 @@ alias_database = hash:/etc/postfix/ml-aliases
 
 ## TODO
 
-* Write tests!
+* Write unit tests!
