@@ -5,15 +5,23 @@ require 'rake/testtask'
 desc 'Default: run unit tests.'
 task :default => :test
 
+namespace :test do
+  desc "Test runner"
+  Rake::TestTask.new :run do |test|
+    ENV['TEST_FIXTURE'] ||= "file"
+    test.test_files = FileList.new('test/*_test.rb')
+    test.libs << 'test'
+    test.verbose = true
+  end
+end
+
 AVAILABLE_TEST_FIXTURES = %w[file yaml]
 
 AVAILABLE_TEST_FIXTURES.each do |test_fixture|
   namespace :test do
-    Rake::TestTask.new(test_fixture) do |test|
-      ENV['TEST_FIXTURE'] = test_fixture
-      test.test_files = FileList.new('test/*_test.rb')
-      test.libs << 'test'
-      test.verbose = true
+    desc "Run tests with fixture #{test_fixture}"
+    task test_fixture do
+      system "bundle exec rake test:run TEST_FIXTURE=#{test_fixture}"
     end
   end
 end
