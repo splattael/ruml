@@ -9,7 +9,8 @@ module Ruml
   autoload :Broadcaster,  'ruml/broadcaster'
   autoload :VERSION,      'ruml/version'
 
-  def self.new(*args)
-    List.new(*args)
+  def self.broadcast!(name, input)
+    ml = Ruml::List.new(name)
+    Ruml::Broadcaster.new(ml, input).broadcast!
   end
 end

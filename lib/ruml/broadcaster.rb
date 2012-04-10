@@ -5,10 +5,6 @@ module Ruml
       @message = Mail.new(message)
     end
 
-    def sendable?
-      !been_there? && valid_member?
-    end
-
     def valid_member?
       expected = @message.from.size
       actual   = (@message.from.map(&:downcase) & @ml.members.map(&:downcase)).size
@@ -59,7 +55,12 @@ module Ruml
       end
     end
 
-    def send!
+    def broadcastable?
+      !been_there? && valid_member?
+    end
+
+    def broadcast!
+      return unless broadcastable?
       mail = Mail.new
       mail.subject  subject
       mail.from     from

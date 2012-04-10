@@ -21,8 +21,7 @@ module RumlTestSupport
   def exec_ruml(arg, input)
     # TODO execute "bin/ruml" directly
     begin
-      ml = Ruml.new(arg)
-      ml.broadcast!(input)
+      Ruml.broadcast!(arg, input)
       "" # empty output
     rescue => e
       "#{e.message} (#{e.class})"

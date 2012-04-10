@@ -30,17 +30,6 @@ module Ruml
       @bounce_to ||= lines("bounce_to").first || to
     end
 
-    def broadcaster(body)
-      Broadcaster.new(self, body)
-    end
-
-    def broadcast!(body)
-      message = broadcaster(body)
-      if message.sendable?
-        message.send!
-      end
-    end
-
   private
 
     def lines(name)
