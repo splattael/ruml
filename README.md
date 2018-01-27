@@ -1,5 +1,8 @@
 # ruml
 
+[![Build Status](https://img.shields.io/travis/splattael/ruml.svg?branch=master)](https://travis-ci.org/splattael/ruml)
+[![Gem Version](https://img.shields.io/gem/v/ruml.svg)](https://rubygems.org/gems/ruml)
+
 Ruby mailing list software
 
 
