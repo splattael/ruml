@@ -5,8 +5,8 @@ require "ruml/version"
 Gem::Specification.new do |s|
   s.name        = "ruml"
   s.version     = Ruml::VERSION
-  s.authors     = ["Peter Suschlik"]
-  s.email       = ["peter@suschlik.de"]
+  s.authors     = ["Peter Leitzen"]
+  s.email       = ["peter-ruml@suschlik.de"]
   s.homepage    = "https://github.com/splattael/ruml"
   s.summary     = %q{Ruby mailing list software}
   s.description = %q{}
