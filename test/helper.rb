@@ -48,10 +48,12 @@ module RumlTestSupport
   end
 end
 
-MiniTest::Unit::TestCase.send :include, RumlTestSupport
+class MiniTest::Test
+  include RumlTestSupport
 
-MiniTest::Unit::TestCase.add_setup_hook do
-  Mail::TestMailer.deliveries.clear
+  def setup
+    Mail::TestMailer.deliveries.clear
+  end
 end
 
 module Kernel
