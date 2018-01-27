@@ -1,3 +1,5 @@
+require 'mail'
+
 module Ruml
   class Broadcaster
     def initialize(ml, message)
