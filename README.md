@@ -6,6 +6,11 @@
 Ruby mailing list software
 
 
+## Installation
+
+    $ gem install ruml
+
+
 ## Configration (ruml)
 
 ### File based
@@ -53,3 +58,16 @@ alias_database = hash:/etc/postfix/ml-aliases
 ## TODO
 
 * Write unit tests!
+
+
+## Release
+
+Follow these steps to release this gem:
+
+    # Bump version in
+    edit lib/ruml/version.rb
+    edit README.md
+
+    git commit -m "Release X.Y.Z"
+
+    rake release
