@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake",        "~> 0.9.2"
   s.add_development_dependency "minitest",    "~> 5.11.2"
 
-  s.add_runtime_dependency "mail",              "~> 2.3.0"
+  s.add_runtime_dependency "mail",              "~> 2.7.0"
   s.add_runtime_dependency "moneta-splattael",  "~> 0.7.0"
 end
